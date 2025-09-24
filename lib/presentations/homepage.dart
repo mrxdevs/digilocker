@@ -1,3 +1,5 @@
+import 'package:digilocker/features/decetro/presentation/pages/decentro_main_page.dart';
+import 'package:digilocker/features/neom/presentation/pages/neom_main_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -42,7 +44,12 @@ class HomePage extends StatelessWidget {
                   'Fetch and verify your docs with digilocker',
                 ),
                 trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DecentroMainPage()),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 16),
@@ -56,10 +63,15 @@ class HomePage extends StatelessWidget {
                   Icons.cloud_upload,
                   color: Colors.deepPurple,
                 ),
-                title: const Text('Upload Document'),
-                subtitle: const Text('Add new documents securely'),
+                title: const Text('Neom'),
+                subtitle: const Text('Pan, Adhar, Rc, Insurance and Licenses'),
                 trailing: const Icon(Icons.arrow_forward_ios),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => NeomMainPage()),
+                  );
+                },
               ),
             ),
           ],
