@@ -6,6 +6,7 @@ import 'package:digilocker/features/neom/data/models/meon_user_data_details_mode
 import 'package:digilocker/features/neom/domain/entities/meon_access_details.dart';
 import 'package:digilocker/features/neom/domain/entities/meon_user_data_details.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 abstract class MeonRemoteDatasource {
@@ -43,21 +44,31 @@ class MeonRemoteDatasourceImp extends MeonRemoteDatasource {
       "state": mad.state,
       "status": true,
     };
+    debugPrint("***-------------[Fetch User details API]------------***");
+
+    debugPrint('Requesting user details with data: $data and headers: $header');
 
     try {
       final response = await dio.post(
-        "v2/send_entire_data",
+        "/v2/send_entire_data",
         data: data,
         options: Options(headers: header),
       );
 
+      debugPrint(
+        'Received response: ${response.statusCode} - ${response.data}',
+      );
+
       if (response.statusCode == 200) {
-        final data = await jsonDecode(response.data);
-        return MeonUserDataDetailsModel.fromJson(data["data"]);
+        final decodedData = response.data;
+        debugPrint('Decoded response data: $decodedData');
+        return MeonUserDataDetailsModel.fromJson(decodedData["data"]);
       } else {
+        debugPrint('Error response: $response');
         throw Exception(response);
       }
     } catch (e, s) {
+      debugPrint('Exception occurred: $e\nStack trace: $s');
       throw Exception(s.toString());
     }
   }
@@ -70,6 +81,8 @@ class MeonRemoteDatasourceImp extends MeonRemoteDatasource {
       "secret_token": meonSecerate,
     };
 
+    debugPrint('Requesting access token with data: $data and headers: $header');
+
     try {
       final response = await dio.post(
         "/get_access_token",
@@ -77,13 +90,19 @@ class MeonRemoteDatasourceImp extends MeonRemoteDatasource {
         options: Options(headers: header),
       );
 
+      debugPrint(
+        'Received response: ${response.statusCode} - ${response.data}',
+      );
+
       if (response.statusCode == 200) {
-        final data = await jsonDecode(response.data);
-        return MeonAccessDetailsModel.fromJson(data);
+        debugPrint('Decoded response data: ${response.data}');
+        return MeonAccessDetailsModel.fromJson(response.data);
       } else {
+        debugPrint('Error response: $response');
         throw Exception(response);
       }
     } catch (e, s) {
+      debugPrint('Exception occurred: $e\nStack trace: $s');
       throw Exception(s.toString());
     }
   }
@@ -104,6 +123,10 @@ class MeonRemoteDatasourceImp extends MeonRemoteDatasource {
       "pan_no": panNo,
     };
 
+    debugPrint(
+      'Requesting DigiLocker URL with data: $data and headers: $header',
+    );
+
     try {
       final response = await dio.post(
         "/digi_url",
@@ -111,19 +134,26 @@ class MeonRemoteDatasourceImp extends MeonRemoteDatasource {
         options: Options(headers: header),
       );
 
+      debugPrint(
+        'Received response: ${response.statusCode} - ${response.data}',
+      );
+
       if (response.statusCode == 200) {
-        final data = await jsonDecode(response.data);
-        return data;
+        debugPrint('DigiLocker URL response data: ${response.data}');
+        return response.data["url"];
       } else {
+        debugPrint('Error response: $response');
         throw Exception(response);
       }
     } catch (e, s) {
+      debugPrint('Exception occurred: $e\nStack trace: $s');
       throw Exception(s.toString());
     }
   }
 
   @override
   Future openUrlonWeb(String url) async {
+    debugPrint('Launching URL: $url');
     return await launchUrl(Uri.parse(url));
   }
 }
