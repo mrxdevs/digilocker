@@ -3,7 +3,6 @@ import 'package:digilocker/features/neom/data/datasources/meon_remote_datasource
 import 'package:digilocker/features/neom/data/repositories/meon_repo_imp.dart';
 import 'package:digilocker/features/neom/domain/entities/meon_access_details.dart';
 import 'package:digilocker/features/neom/domain/entities/meon_user_data_details.dart';
-import 'package:digilocker/features/neom/domain/repositories/meon_repository.dart';
 import 'package:digilocker/features/neom/domain/usecases/fetch_user_data.dart';
 import 'package:digilocker/features/neom/domain/usecases/get_access_details.dart';
 import 'package:digilocker/features/neom/domain/usecases/get_digilocker_url.dart';

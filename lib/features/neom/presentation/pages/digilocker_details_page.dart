@@ -1,8 +1,6 @@
-import 'package:dio/dio.dart';
+import 'package:digilocker/features/neom/presentation/widget/pdf_viewer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:digilocker/features/neom/domain/entities/meon_user_data_details.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:path_provider/path_provider.dart';
 
 class MeonDigilockerAdharDetails extends StatelessWidget {
   final MeonUserDataDetails userData;
@@ -110,7 +108,14 @@ class MeonDigilockerAdharDetails extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 _infoRow('Date Linked', userData.date),
-                CustomPdfNetworkWidget(url: userData.panImagePath),
+
+                SizedBox(
+                  height: 500,
+                  child: CustomPdfNetworkWidget(url: userData.panImagePath),
+                ),
+
+                Image.network(userData.aadharImge),
+                Image.network(userData.aadharImageFileName),
               ],
             ),
           ),
@@ -136,72 +141,6 @@ class MeonDigilockerAdharDetails extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class CustomPdfNetworkWidget extends StatefulWidget {
-  final String url;
-  const CustomPdfNetworkWidget({super.key, required this.url});
-
-  @override
-  State<CustomPdfNetworkWidget> createState() => _CustomPdfNetworkWidgetState();
-}
-
-class _CustomPdfNetworkWidgetState extends State<CustomPdfNetworkWidget> {
-  String? localPath;
-  bool loading = true;
-  String? error;
-
-  @override
-  void initState() {
-    super.initState();
-    _downloadPdf();
-  }
-
-  Future<void> _downloadPdf() async {
-    try {
-      final dir = await getTemporaryDirectory();
-      final filePath = '${dir.path}/temp_network_pdf.pdf';
-      final dio = Dio();
-      final response = await dio.download(
-        widget.url,
-        filePath,
-        options: Options(responseType: ResponseType.bytes),
-      );
-      if (response.statusCode == 200) {
-        setState(() {
-          localPath = filePath;
-          loading = false;
-        });
-      } else {
-        setState(() {
-          error = 'Failed to load PDF';
-          loading = false;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        error = 'Error loading PDF';
-        loading = false;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (loading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    if (error != null) {
-      return Center(child: Text(error!));
-    }
-    return PDFView(
-      filePath: localPath!,
-      enableSwipe: true,
-      swipeHorizontal: false,
-      autoSpacing: true,
-      pageFling: true,
     );
   }
 }
