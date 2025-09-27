@@ -19,4 +19,11 @@ abstract class MeonRepository {
   Future<MeonUserDataDetails?> fetchUserDetailsFromDigilocker(
     MeonAccessDetails mad,
   );
+
+  //Get back digilocker Urls
+  Future<String?> getLicenseDigilockerUrl(
+    String dlno,
+    String clienToken,
+    String orgId,
+  );
 }

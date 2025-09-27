@@ -32,4 +32,14 @@ class MeonRepoImp extends MeonRepository {
   Future openUrlonWeb(String url) {
     return _datasource.openUrlonWeb(url);
   }
+
+  @override
+  Future<String?> getLicenseDigilockerUrl(
+    String dlno,
+    String clienToken,
+    String orgId,
+  ) {
+    // TODO: implement getLicenseDigilockerUrl
+    return _datasource.getLicenseDigilockerUrl(dlno, clienToken, orgId);
+  }
 }

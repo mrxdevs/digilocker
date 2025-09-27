@@ -17,6 +17,7 @@ class MeonUserDataDetails {
   final String state;
   final String pincode;
   final String aadharNo;
+  final String dlFile;
 
   //Constructor
   const MeonUserDataDetails({
@@ -38,6 +39,7 @@ class MeonUserDataDetails {
     required this.state,
     required this.pincode,
     required this.aadharNo,
+    required this.dlFile,
   });
 
   List<Object?> get props => [
@@ -59,5 +61,6 @@ class MeonUserDataDetails {
     state,
     pincode,
     aadharNo,
+    dlFile,
   ];
 }

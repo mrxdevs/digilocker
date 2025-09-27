@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:digilocker/core/secerate/.env.dart';
 import 'package:digilocker/features/neom/data/models/meon_access_details_model.dart';
 import 'package:digilocker/features/neom/data/models/meon_user_data_details_model.dart';
@@ -26,6 +24,12 @@ abstract class MeonRemoteDatasource {
   //To getback all the details
   Future<MeonUserDataDetails?> fetchUserDetailsFromDigilocker(
     MeonAccessDetails mad,
+  );
+
+  Future<String?> getLicenseDigilockerUrl(
+    String dlno,
+    String clienToken,
+    String orgId,
   );
 }
 
@@ -155,5 +159,50 @@ class MeonRemoteDatasourceImp extends MeonRemoteDatasource {
   Future openUrlonWeb(String url) async {
     debugPrint('Launching URL: $url');
     return await launchUrl(Uri.parse(url));
+  }
+
+  @override
+  Future<String?> getLicenseDigilockerUrl(
+    String dlno,
+    String clienToken,
+    String orgId,
+  ) async {
+    final header = {"Content-Type": "application/json"};
+    final data = {
+      "client_token": clienToken,
+      "redirect_url": "meon.co.in",
+      "company_name": meonCompanyName,
+      "documents": "aadhaar,pan",
+      "other_documents": [
+        {"doctype": "DRVLC", "orgid": orgId, "consent": "Y", "dlno": dlno},
+      ],
+    };
+
+    debugPrint(
+      'Requesting DigiLocker URL with data: $data and headers: $header',
+    );
+
+    try {
+      final response = await dio.post(
+        "/digi_url",
+        data: data,
+        options: Options(headers: header),
+      );
+
+      debugPrint(
+        'Received response: ${response.statusCode} - ${response.data}',
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('DigiLocker URL response data: ${response.data}');
+        return response.data["url"];
+      } else {
+        debugPrint('Error response: $response');
+        throw Exception(response);
+      }
+    } catch (e, s) {
+      debugPrint('Exception occurred: $e\nStack trace: $s');
+      throw Exception(s.toString());
+    }
   }
 }

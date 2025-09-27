@@ -20,6 +20,7 @@ class MeonUserDataDetailsModel extends MeonUserDataDetails {
     required super.state,
     required super.pincode,
     required super.aadharNo,
+    required super.dlFile,
   });
 
   //Create factory and toMap contructor
@@ -43,6 +44,7 @@ class MeonUserDataDetailsModel extends MeonUserDataDetails {
       state: data["state"] ?? '',
       pincode: data["pincode"] ?? '',
       aadharNo: data["aadhar_no"] ?? '',
+      dlFile: data["other_documents_files"]?["DRVLC"] ?? '',
     );
   }
 
@@ -66,11 +68,12 @@ class MeonUserDataDetailsModel extends MeonUserDataDetails {
       "state": meon.state,
       "pincode": meon.pincode,
       "aadhar_no": meon.aadharNo,
+      "other_documents_files": {"DRVLC": meon.dlFile},
     };
   }
 
   @override
   String toString() {
-    return 'MeonUserDataDetails(aadharAddress: $aadharAddress, adharFileName: $adharFileName, aadharImageFileName: $aadharImageFileName, aadharImge: $aadharImge, date: $date, fatherName: $fatherName, dob: $dob, district: $district, gender: $gender, house: $house, locality: $locality, name: $name, nameOnPan: $nameOnPan, panImagePath: $panImagePath, panNo: $panNo, state: $state, pincode: $pincode, aadharNo: $aadharNo)';
+    return 'MeonUserDataDetails(aadharAddress: $aadharAddress, adharFileName: $adharFileName, aadharImageFileName: $aadharImageFileName, aadharImge: $aadharImge, date: $date, fatherName: $fatherName, dob: $dob, district: $district, gender: $gender, house: $house, locality: $locality, name: $name, nameOnPan: $nameOnPan, panImagePath: $panImagePath, panNo: $panNo, state: $state, pincode: $pincode, aadharNo: $aadharNo, dlno: $dlFile)';
   }
 }
