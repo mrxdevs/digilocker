@@ -1,10 +1,16 @@
 import 'package:digilocker/features/decetro/presentation/pages/decentro_main_page.dart';
 import 'package:digilocker/features/neom/presentation/pages/neom_main_page.dart';
+
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

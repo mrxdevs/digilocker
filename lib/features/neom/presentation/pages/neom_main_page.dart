@@ -11,6 +11,7 @@ import 'package:digilocker/features/neom/domain/usecases/get_license_digilocker_
 import 'package:digilocker/features/neom/domain/usecases/open_web_url.dart';
 import 'package:digilocker/features/neom/presentation/pages/digilocker_details_page.dart';
 import 'package:digilocker/features/neom/presentation/pages/docs_details_page.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 

@@ -7,6 +7,7 @@ import 'package:digilocker/features/neom/presentation/widget/pdf_viewer_page.dar
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:digilocker/features/neom/domain/entities/meon_user_data_details.dart';
+import 'package:go_router/go_router.dart';
 
 class MeonDigilockerDocsDetails extends StatefulWidget {
   const MeonDigilockerDocsDetails({super.key});
@@ -18,15 +19,24 @@ class MeonDigilockerDocsDetails extends StatefulWidget {
 
 class _MeonDigilockerDocsDetailsState extends State<MeonDigilockerDocsDetails> {
   MeonUserDataDetails? userData;
+  bool isLoading = false;
   _fetchDocumentFromDigilocker() async {
     final dio = Dio(BaseOptions(baseUrl: "https://digilocker.meon.co.in"));
     final datasource = MeonRemoteDatasourceImp(dio);
     final meonRepo = MeonRepoImp(datasource);
 
+    //Local veriable
+
     if (meonAccessDetails == null) {
       debugPrint("Error: Seems Access credential is Null");
       return;
     }
+    if (mounted) {
+      setState(() {
+        isLoading = true;
+      });
+    }
+
     //Fetch document details
     MeonUserDataDetails? meonUserData = await FetchUserData(
       meonRepo,
@@ -35,6 +45,7 @@ class _MeonDigilockerDocsDetailsState extends State<MeonDigilockerDocsDetails> {
     if (mounted) {
       setState(() {
         userData = meonUserData;
+        isLoading = false;
       });
     }
 
@@ -280,11 +291,24 @@ class _MeonDigilockerDocsDetailsState extends State<MeonDigilockerDocsDetails> {
                       ),
                     ),
                 ] else ...[
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(32.0),
-                      child: CircularProgressIndicator(),
+                  if (meonAccessDetails == null)
+                    Center(child: Text("No Access found")),
+
+                  if (userData == null && isLoading)
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(32.0),
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
+
+                  if (userData == null && !isLoading)
+                    Center(child: Text("No Data found")),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    child: Text("Go back"),
                   ),
                 ],
               ],
