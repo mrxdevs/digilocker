@@ -120,7 +120,7 @@ class MeonRemoteDatasourceImp extends MeonRemoteDatasource {
     final header = {"Content-Type": "application/json"};
     final data = {
       "client_token": clientToken,
-      "redirect_url": "https://live.meon.co.in/",
+      "redirect_url": "https://dglocker.vercel.app/",
       "company_name": meonCompanyName,
       "documents": "aadhaar,pan",
       "pan_name": panName,
