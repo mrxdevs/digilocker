@@ -10,6 +10,7 @@ import 'package:digilocker/features/neom/domain/usecases/get_digilocker_url.dart
 import 'package:digilocker/features/neom/domain/usecases/get_license_digilocker_url.dart';
 import 'package:digilocker/features/neom/domain/usecases/open_web_url.dart';
 import 'package:digilocker/features/neom/presentation/pages/digilocker_details_page.dart';
+import 'package:digilocker/features/neom/presentation/pages/docs_details_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -35,10 +36,22 @@ class _NeomMainPageState extends State<NeomMainPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FetchButton(
+              label: 'View Document',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MeonDigilockerDocsDetails(),
+                  ),
+                );
+              },
+            ),
+            FetchButton(
               label: "Fetch Driving License Card ",
               onPressed: _fetchLicense,
             ),
             const SizedBox(height: 20),
+
             if (!_isShowPanUI)
               FetchButton(label: 'Fetch Aadhar && Pan', onPressed: _fetchAdhar),
             if (_isShowPanUI)
