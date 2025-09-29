@@ -70,47 +70,81 @@ class _MeonDigilockerDocsDetailsState extends State<MeonDigilockerDocsDetails> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Digilocker Details'),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.deepPurple,
+        centerTitle: true,
+        elevation: 2,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(18),
         child: Card(
-          elevation: 6,
+          elevation: 8,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(24),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (userData != null) ...[
                   // Aadhaar Section
+                  if (userData?.aadharNo.isEmpty ?? false)
+                    Center(
+                      child: Text(
+                        "Not autherized with Digilocker",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+
                   Row(
                     children: [
                       CircleAvatar(
-                        radius: 36,
+                        radius: 38,
+                        backgroundColor: Colors.deepPurple.shade100,
                         backgroundImage:
                             userData?.aadharImageFileName.isNotEmpty ?? false
                             ? NetworkImage(userData?.aadharImageFileName ?? "")
                             : null,
                         child: userData?.aadharImge.isEmpty ?? false
-                            ? const Icon(Icons.person, size: 36)
+                            ? const Icon(
+                                Icons.person,
+                                size: 38,
+                                color: Colors.deepPurple,
+                              )
                             : null,
                       ),
-                      const SizedBox(width: 16),
+                      const SizedBox(width: 18),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               userData?.name ?? "",
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            Text(
-                              'Aadhaar: ${userData?.aadharNo ?? ""}',
                               style: const TextStyle(
-                                fontWeight: FontWeight.w500,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.deepPurple,
                               ),
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.credit_card,
+                                  color: Colors.indigo,
+                                  size: 18,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'Aadhaar: ${userData?.aadharNo ?? ""}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
                             ),
                             Text(
                               userData?.gender ?? "",
@@ -128,9 +162,16 @@ class _MeonDigilockerDocsDetailsState extends State<MeonDigilockerDocsDetails> {
                   _infoRow('District', userData?.district ?? ""),
                   _infoRow('State', userData?.state ?? ""),
                   _infoRow('Pincode', userData?.pincode ?? ""),
-                  const SizedBox(height: 24),
-
-                  // PAN Section
+                  const SizedBox(height: 28),
+                  Text(
+                    'PAN Details',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.indigo.shade700,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       Container(
@@ -138,9 +179,13 @@ class _MeonDigilockerDocsDetailsState extends State<MeonDigilockerDocsDetails> {
                         height: 40,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: Colors.grey[200],
+                          color: Colors.indigo.shade50,
                         ),
-                        child: const Icon(Icons.credit_card, size: 32),
+                        child: const Icon(
+                          Icons.credit_card,
+                          size: 32,
+                          color: Colors.indigo,
+                        ),
                       ),
                       const SizedBox(width: 16),
                       Expanded(
@@ -149,7 +194,10 @@ class _MeonDigilockerDocsDetailsState extends State<MeonDigilockerDocsDetails> {
                           children: [
                             Text(
                               'PAN: ${userData?.panNo ?? ""}',
-                              style: Theme.of(context).textTheme.titleMedium,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
                             ),
                             Text(
                               'Name on PAN: ${userData?.nameOnPan ?? ""}',
@@ -162,21 +210,16 @@ class _MeonDigilockerDocsDetailsState extends State<MeonDigilockerDocsDetails> {
                   ),
                   const SizedBox(height: 16),
                   _infoRow('Date Linked', userData?.date ?? ""),
-                  // (userData?.panImagePath.isNotEmpty ?? false) &&
-                  //         (userData?.panImagePath.endsWith(".pdf") ?? false)
-                  //     ? SizedBox(
-                  //         height: 500,
-                  //         child: CustomPdfNetworkWidget(
-                  //           url: userData?.panImagePath ?? "",
-                  //         ),
-                  //       )
-                  //     : SizedBox(
-                  //         height: 300,
-                  //         width: 300,
-                  //         child: Center(child: Text("No Pan found")),
-                  //       ),
-
-                  // DL Section with dotted border
+                  const SizedBox(height: 18),
+                  Text(
+                    'Driving License',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepPurple,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                   (userData?.dlFile.isNotEmpty ?? false) &&
                           (userData?.dlFile.endsWith(".pdf") ?? false)
                       ? Container(
@@ -210,11 +253,24 @@ class _MeonDigilockerDocsDetailsState extends State<MeonDigilockerDocsDetails> {
                           child: SizedBox(
                             height: 300,
                             width: 300,
-                            child: Center(child: Text("No DL found")),
+                            child: Center(
+                              child: Text(
+                                "No DL found",
+                                style: TextStyle(color: Colors.indigo),
+                              ),
+                            ),
                           ),
                         ),
-
-                  // Aadhaar Image with dotted border
+                  const SizedBox(height: 18),
+                  Text(
+                    'Aadhaar Images',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepPurple,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                   if (userData?.aadharImge.isNotEmpty ?? false)
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 12),
@@ -225,14 +281,20 @@ class _MeonDigilockerDocsDetailsState extends State<MeonDigilockerDocsDetails> {
                           style: BorderStyle.solid,
                         ),
                         borderRadius: BorderRadius.circular(12),
-                        // Dotted border effect using a dashed decoration package is recommended for real dotted borders
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.network(userData?.aadharImge ?? ""),
+                        child: userData!.aadharImge.endsWith(".jpg")
+                            ? Image.network(userData?.aadharImge ?? "")
+                            : SizedBox(
+                                height: 100,
+                                width: 300,
+                                child: Center(child: Text(" No Image found")),
+                              ),
                       ),
                     ),
-                  if (userData?.aadharImageFileName.isNotEmpty ?? false)
+
+                  if ((userData?.aadharImageFileName.isNotEmpty ?? false))
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
@@ -245,13 +307,25 @@ class _MeonDigilockerDocsDetailsState extends State<MeonDigilockerDocsDetails> {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          userData?.aadharImageFileName ?? "",
-                        ),
+                        child: userData!.aadharImageFileName.endsWith(".jpg")
+                            ? Image.network(userData?.aadharImageFileName ?? "")
+                            : SizedBox(
+                                height: 100,
+                                width: 300,
+                                child: Center(child: Text(" No Image found")),
+                              ),
                       ),
                     ),
-
-                  // PAN Section with dotted border
+                  const SizedBox(height: 18),
+                  Text(
+                    'PAN Document',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.indigo.shade700,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                   if ((userData?.panImagePath.isNotEmpty ?? false) &&
                       (userData?.panImagePath.endsWith(".pdf") ?? false))
                     Container(
@@ -287,28 +361,62 @@ class _MeonDigilockerDocsDetailsState extends State<MeonDigilockerDocsDetails> {
                       child: SizedBox(
                         height: 300,
                         width: 300,
-                        child: Center(child: Text("No Pan found")),
+                        child: Center(
+                          child: Text(
+                            "No Pan found",
+                            style: TextStyle(color: Colors.indigo),
+                          ),
+                        ),
                       ),
                     ),
                 ] else ...[
                   if (meonAccessDetails == null)
-                    Center(child: Text("No Access found")),
-
+                    Center(
+                      child: Text(
+                        "No Access found",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   if (userData == null && isLoading)
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.all(32.0),
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          color: Colors.deepPurple,
+                        ),
                       ),
                     ),
-
                   if (userData == null && !isLoading)
-                    Center(child: Text("No Data found")),
-                  ElevatedButton(
-                    onPressed: () {
-                      context.pop();
-                    },
-                    child: Text("Go back"),
+                    Center(
+                      child: Text(
+                        "No Data found",
+                        style: TextStyle(color: Colors.indigo),
+                      ),
+                    ),
+                  const SizedBox(height: 24),
+                  Center(
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.arrow_back),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurple,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                        textStyle: const TextStyle(fontSize: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: () {
+                        context.pop();
+                      },
+                      label: const Text("Go back"),
+                    ),
                   ),
                 ],
               ],

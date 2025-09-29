@@ -43,6 +43,10 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _sub = appLinks.uriLinkStream.listen((uri) {
+      // Debugging message
+      debugPrint(
+        '------------>Received deep link: ${uri.toString()} and Path: ${uri.path}<---------------',
+      );
       //Handling navigation here
       _router.go(uri.path); // This will navigate to the correct page
     });

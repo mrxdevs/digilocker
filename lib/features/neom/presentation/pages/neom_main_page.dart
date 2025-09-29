@@ -30,74 +30,169 @@ class _NeomMainPageState extends State<NeomMainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Neom Main Page')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FetchButton(
-              label: 'View Document',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MeonDigilockerDocsDetails(),
-                  ),
-                );
-              },
-            ),
-            FetchButton(
-              label: "Fetch Driving License Card ",
-              onPressed: _fetchLicense,
-            ),
-            const SizedBox(height: 20),
-
-            if (!_isShowPanUI)
-              FetchButton(label: 'Fetch Aadhar && Pan', onPressed: _fetchAdhar),
-            if (_isShowPanUI)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: AppBar(
+        title: const Text('Neom Services'),
+        backgroundColor: Colors.deepPurple,
+        centerTitle: true,
+        elevation: 2,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  const Text(
-                    'Enter PAN Details',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  CircleAvatar(
+                    radius: 28,
+                    backgroundColor: Colors.deepPurple,
+                    child: Icon(Icons.cloud, color: Colors.white, size: 32),
                   ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: _pannoController,
-                    decoration: const InputDecoration(
-                      labelText: 'PAN Number',
-
-                      border: OutlineInputBorder(),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          'Welcome to Neom!',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Manage your PAN, Aadhaar, Driving License, Insurance and more.',
+                          style: TextStyle(fontSize: 15, color: Colors.black54),
+                        ),
+                      ],
                     ),
-                    onChanged: (value) {
-                      // Handle PAN number input
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  TextField(
-                    controller: _nameOnPan,
-                    decoration: const InputDecoration(
-                      labelText: 'Name as per PAN card',
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (value) {
-                      // Handle PAN name input
-                    },
                   ),
                 ],
               ),
-
-            const SizedBox(height: 20),
-            if (_isShowPanUI)
-              FetchButton(
-                label: _isWebOpened
-                    ? "Fetch details after Authentication"
-                    : 'Initiate Authentication',
-                onPressed: _fetchAdhar,
+              const SizedBox(height: 32),
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: ListTile(
+                  leading: Icon(Icons.folder_open, color: Colors.deepPurple),
+                  title: Text('View Document'),
+                  subtitle: Text('See your uploaded documents'),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MeonDigilockerDocsDetails(),
+                      ),
+                    );
+                  },
+                ),
               ),
-          ],
+              const SizedBox(height: 16),
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.card_membership,
+                    color: Colors.deepPurple,
+                  ),
+                  title: Text('Fetch Driving License'),
+                  subtitle: Text('Get your driving license details'),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: _fetchLicense,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: ListTile(
+                  leading: Icon(Icons.credit_card, color: Colors.deepPurple),
+                  title: Text('Fetch Aadhaar & PAN'),
+                  subtitle: Text('Get your Aadhaar and PAN details'),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                  onTap: _fetchAdhar,
+                ),
+              ),
+              if (_isShowPanUI) ...[
+                const SizedBox(height: 24),
+                Card(
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: const [
+                            Icon(Icons.edit, color: Colors.deepPurple),
+                            SizedBox(width: 8),
+                            Text(
+                              'Enter PAN Details',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        TextField(
+                          controller: _pannoController,
+                          decoration: const InputDecoration(
+                            labelText: 'PAN Number',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        TextField(
+                          controller: _nameOnPan,
+                          decoration: const InputDecoration(
+                            labelText: 'Name as per PAN card',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            icon: Icon(
+                              _isWebOpened ? Icons.check : Icons.login,
+                            ),
+                            label: Text(
+                              _isWebOpened
+                                  ? "Fetch details after Authentication"
+                                  : 'Initiate Authentication',
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.deepPurple,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              textStyle: const TextStyle(fontSize: 16),
+                            ),
+                            onPressed: _fetchAdhar,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );
