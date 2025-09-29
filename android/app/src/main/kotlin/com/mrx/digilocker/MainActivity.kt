@@ -1,4 +1,4 @@
-package com.example.digilocker
+package com.mrx.digilocker
 
 import io.flutter.embedding.android.FlutterActivity
 
